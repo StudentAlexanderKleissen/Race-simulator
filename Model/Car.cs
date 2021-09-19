@@ -15,9 +15,10 @@ namespace Model
             IsBroken = isBroken;
         }
 
-        public int Quality { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public int Performance { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public int Speed { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public bool IsBroken { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public int Quality { get; set; }
+        public int Performance { get; }
+        public int Speed { get; set; }
+        public bool IsBroken { get; set; }
+        int IEquipment.Performance { get; set; }
     }
 }

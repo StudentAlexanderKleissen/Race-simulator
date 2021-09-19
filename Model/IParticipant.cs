@@ -1,6 +1,4 @@
-﻿
-
-namespace Model
+﻿namespace Model
 {
     public interface IParticipant
     {
