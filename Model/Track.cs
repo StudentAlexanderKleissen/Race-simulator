@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace Model
 {
-    class Track
+    public class Track
     {
         public string Name { get; set; }
         public LinkedList<Section> Sections { get; set; }
-        public Track(string name, SectionTypes[] sections)
+        public Track(string name)
         {
             Name = name;
             //Sections = ArrayToLinkedList(sections);
