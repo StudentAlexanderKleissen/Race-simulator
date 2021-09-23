@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using ExchangeAPI.Data;
 using Model;
 
 namespace Controller
@@ -9,6 +8,8 @@ namespace Controller
     public static class Data
     {
         public static Model.Competition Competition { get; set; }
+
+        public static Race CurrentRace { get; set; }
 
         public static void Initialize()
         {
@@ -36,6 +37,17 @@ namespace Controller
 
             Competition.Tracks.Enqueue(track1);
             Competition.Tracks.Enqueue(track2);
+        }
+
+        public static Track NextRace()
+        {
+            Track NextRace = Competition.NextTrack();
+            if (NextRace != null)
+            {
+                Initialize();
+                CurrentRace = new Race(NextRace, Competition.Participants);
+            }
+            return Competition.NextTrack();
         }
     }
 }
