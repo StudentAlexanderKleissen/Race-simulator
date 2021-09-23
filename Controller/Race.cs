@@ -42,5 +42,10 @@ namespace Controller
                 participant.Equipment.Performance = rndm2;
             }
         }
+
+        public override string ToString()
+        {
+            return track.Name;
+        }
     }
 }

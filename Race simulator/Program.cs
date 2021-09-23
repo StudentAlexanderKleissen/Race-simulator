@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using Controller;
 
 namespace Race_simulator
@@ -10,6 +11,10 @@ namespace Race_simulator
             Data.Initialize();
             Data.NextRace();
             Console.WriteLine(Data.CurrentRace);
+            for (; ; )
+            {
+                Thread.Sleep(100);
+            }
         }
     }
 }
