@@ -32,8 +32,26 @@ namespace Controller
 
         public static void AddTracks()
         {
-            Track track1 = new Track("Zandvoort");
-            Track track2 = new Track("Monaco");
+            SectionTypes[] zandvoortSections =
+{
+                SectionTypes.RightCorner,
+                SectionTypes.StartGrid,
+                SectionTypes.Straight,
+                SectionTypes.Finish,
+                SectionTypes.Straight,
+                SectionTypes.Straight,
+            };
+
+            SectionTypes[] monacoSections =
+            {
+                SectionTypes.RightCorner,
+                SectionTypes.Straight,
+                SectionTypes.LeftCorner,
+                SectionTypes.Straight,
+            };
+
+            Track track1 = new Track("Zandvoort", zandvoortSections);
+            Track track2 = new Track("Monaco", monacoSections);
 
             Competition.Tracks.Enqueue(track1);
             Competition.Tracks.Enqueue(track2);
