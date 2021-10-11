@@ -33,13 +33,24 @@ namespace Controller
         public static void AddTracks()
         {
             SectionTypes[] zandvoortSections =
-{
-                SectionTypes.RightCorner,
+            {
                 SectionTypes.StartGrid,
-                SectionTypes.Straight,
                 SectionTypes.Finish,
                 SectionTypes.Straight,
-                SectionTypes.Straight,
+                SectionTypes.RightCorner,
+                //SectionTypes.Straight,
+                //SectionTypes.Straight,
+                //SectionTypes.Straight,
+                //SectionTypes.RightCorner,
+                //SectionTypes.Straight,
+                //SectionTypes.Straight,
+                //SectionTypes.Straight,
+                //SectionTypes.RightCorner,
+                //SectionTypes.Straight,
+                //SectionTypes.Straight,
+                //SectionTypes.Straight,
+                //SectionTypes.RightCorner,
+                //SectionTypes.Straight,
             };
 
             SectionTypes[] monacoSections =
@@ -59,11 +70,18 @@ namespace Controller
 
         public static Track NextRace()
         {
-            Track NextRace = Competition.NextTrack();
-            if (NextRace != null)
+            try
             {
-                Initialize();
-                CurrentRace = new Race(NextRace, Competition.Participants);
+                Track NextRace = Competition.NextTrack();
+                if (NextRace != null)
+                {
+                    Initialize();
+                    CurrentRace = new Race(NextRace, Competition.Participants);
+                }
+            }
+            catch(System.NullReferenceException exception)
+            {
+                Console.WriteLine("System.NullReferenceException");
             }
             return Competition.NextTrack();
         }
