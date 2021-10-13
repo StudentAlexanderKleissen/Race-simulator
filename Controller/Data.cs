@@ -51,8 +51,8 @@ namespace Controller
                 SectionTypes.Straight,
                 SectionTypes.Straight,
                 SectionTypes.Straight,
-                SectionTypes.RightCorner,
-                SectionTypes.Straight,
+                //SectionTypes.RightCorner,
+                //SectionTypes.Straight,
             };
 
             SectionTypes[] monacoSections =

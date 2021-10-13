@@ -63,18 +63,20 @@ namespace Race_simulator
 
         private static string[,] _corner2 = new string[,] //corner from 
         {
-            { "--/", "-----", "", "//" },
-            { "", "      ", "", "//" },
-            { "", "       ", "", "//" },
-            { "", "        ", "", " //" },
-            { "", "      ", "", "//" }};
+            { "|", "      ", "", "\\--" },
+            { "\\", "         ", "", "" },
+            { " \\", "          ", "", "" },
+            { "  \\", "           ", "", "" },
+            { "   \\", "------", "", "" }};
 
         private static string[,] _corner3 = new string[,]
             {
-            { " /", "------", "", "" },
+            { "/", "------", "", "" },
+            { "/", "       ", "", "" },
+            { "/", "       ", "", "" },
             { "/", "       ", "", "" },
             { "|", "       ", "", "" },
-            { "|", "       ", "", "" } };
+            };
 
 
         //private static string[,] _finishHorizontal = { "----", "  # ", "  # ", "----" };
@@ -196,8 +198,15 @@ namespace Race_simulator
                                     LineNumber = 0;
                                 }
                             }
-                            CoordinateX = startingX;
-                            CoordinateY = startingY + 4;
+                            if(Direction == 1)
+                            {
+                                CoordinateX = startingX;
+                                CoordinateY = startingY + 4;
+                            }else if(Direction == 3)
+                            {
+                                CoordinateX = startingX;
+                                CoordinateY = startingY - 4;
+                            }
                         }
                         break;
 
@@ -244,6 +253,26 @@ namespace Race_simulator
                             }
                             CoordinateX = startingX - 10;
                             CoordinateY = startingY;
+                        } else if(Direction == 2)
+                        {
+                            int startingX = CoordinateX;
+                            int startingY = CoordinateY;
+                            Console.SetCursorPosition(CoordinateX, CoordinateY);
+                            foreach (string line in _corner2)
+                            {
+                                Thread.Sleep(50);
+
+                                Console.Write(line);
+                                LineNumber++;
+                                if (LineNumber == 4)
+                                {
+                                    CoordinateY++;
+                                    Console.SetCursorPosition(CoordinateX, CoordinateY);
+                                    LineNumber = 0;
+                                }
+                            }
+                            CoordinateX = startingX;
+                            CoordinateY = startingY - 4;
                         }
                         Direction++;
                         break;
