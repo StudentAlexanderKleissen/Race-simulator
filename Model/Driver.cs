@@ -13,10 +13,15 @@ namespace Model
 
         public Driver(string name, int points, IEquipment equipment,IParticipant.TeamColors teamcolor)
         {
-            name = Name;
-            points = Points;
-            equipment = Equipment;
-            teamcolor = TeamColor;
+            Name = name;
+            Points = points;
+            Equipment = equipment;
+            TeamColor = teamcolor;
+        }
+
+        public override string ToString()
+        {
+            return $"name = {this.Name}, point = {this.Points}";
         }
     }
 }

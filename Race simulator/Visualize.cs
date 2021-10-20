@@ -1,4 +1,5 @@
-﻿using Model;
+﻿using Controller;
+using Model;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -31,9 +32,9 @@ namespace Race_simulator
 
         private static string[,] _horizontalStartingGrid = new string[,] {
             { "----------", "", "", "" },
-            { ">   >   > ", "", "", "" },
+            { "        ", ">", " ", "" },
             { "          ", "", "", "" },
-            { "  >   >   ", "", "", "" },
+            { "      ", ">", "   ", "" },
             { "----------", "", "", "" },
         };
 
@@ -47,9 +48,9 @@ namespace Race_simulator
 
         private static string[,] _corner0 = new string[,] //corner from south to east
         {
-            { "", "-----", "", "-\\" },
-            { "", "      ", "", " \\" },
-            { "", "       ", "", " \\" },
+            { "", "-----", "", "-\\   " },
+            { "", "      ", "", " \\  " },
+            { "", "       ", "", " \\ " },
             { "", "        ", "", " \\" },
             { "--\\", "      ", "", "|" }};
 
@@ -57,9 +58,9 @@ namespace Race_simulator
         {
             { "--/", "      ", "", "|" },
             { "", "        ", "", " /" },
-            { "", "        ", "", "/" },
-            { "", "       ", "", "/" },
-            { "--", "----", "", "/" }};
+            { "", "        ", "", "/ " },
+            { "", "       ", "", "/  " },
+            { "--", "----", "", "/   " }};
 
         private static string[,] _corner2 = new string[,] //corner from 
         {
@@ -71,11 +72,11 @@ namespace Race_simulator
 
         private static string[,] _corner3 = new string[,]
             {
-            { "/", "------", "", "" },
-            { "/", "       ", "", "" },
-            { "/", "       ", "", "" },
-            { "/", "       ", "", "" },
-            { "|", "       ", "", "" },
+            { "   /", "-------", "", "" },
+            { "  /", "        ", "", "" },
+            { " /", "         ", "", "" },
+            { "/", "          ", "", "" },
+            { "|", "      ", "/", "---" },
             };
 
 
@@ -83,10 +84,10 @@ namespace Race_simulator
         //                                                    ;
         #endregion
 
-        private static int CoordinateX;
-        private static int CoordinateY;
         private static int Direction;
         private static int LineNumber;
+        private static int CoordinateX;
+        private static int CoordinateY;
         private static int startingX;
         private static int startingY;
 
@@ -96,6 +97,8 @@ namespace Race_simulator
             CoordinateY = 1;
             Direction = 0; //0 = east 1 = south 2 = west 3 = north
             LineNumber = 0;
+
+            Data.CurrentRace.DriversChanged += OnDriversChanged;
         }
 
         public static void DrawTrack(Track track)
@@ -104,6 +107,7 @@ namespace Race_simulator
 
             Console.BackgroundColor = ConsoleColor.Blue;
             Console.WriteLine(track.Name);
+            
 
             foreach (Section section in track.Sections)
             {
@@ -111,12 +115,18 @@ namespace Race_simulator
                 switch (section.SectionType)
                 {
                     case SectionTypes.StartGrid:
+                        SectionData sectionData = Data.CurrentRace.GetSectionData(section);
+                        foreach (Model.IParticipant participant in Data.CurrentRace.Participants)
+                        {
+                            _horizontalStartingGrid = AddParticipantsToGraphics(_horizontalStartingGrid, participant);
+                        }
+                        
+
                         startingX = CoordinateX;
                         startingY = CoordinateY;
                         Console.SetCursorPosition(CoordinateX, CoordinateY);
                         foreach (string line in _horizontalStartingGrid)
                         {
-                            Thread.Sleep(50);
                             Console.Write(line);
                             LineNumber++;
                             if (LineNumber == 4)
@@ -136,8 +146,6 @@ namespace Race_simulator
                         Console.SetCursorPosition(CoordinateX, CoordinateY);
                         foreach (string line in _horizontalFinish)
                         {
-                            Thread.Sleep(50);
-
                             Console.Write(line);
                             LineNumber++;
                             if (LineNumber == 4)
@@ -159,8 +167,6 @@ namespace Race_simulator
                             Console.SetCursorPosition(CoordinateX, CoordinateY);
                             foreach (string line in _horizontalStraight)
                             {
-                                Thread.Sleep(50);
-
                                 Console.Write(line);
                                 LineNumber++;
                                 if (LineNumber == 4)
@@ -187,8 +193,6 @@ namespace Race_simulator
                             Console.SetCursorPosition(CoordinateX, CoordinateY);
                             foreach (string line in _verticalStraight)
                             {
-                                Thread.Sleep(50);
-
                                 Console.Write(line);
                                 LineNumber++;
                                 if (LineNumber == 4)
@@ -218,8 +222,6 @@ namespace Race_simulator
                             Console.SetCursorPosition(CoordinateX, CoordinateY);
                             foreach (string line in _corner0)
                             {
-                                Thread.Sleep(50);
-                                
                                 Console.Write(line);
                                 LineNumber++;
                                 if (LineNumber == 4)
@@ -232,7 +234,6 @@ namespace Race_simulator
 
                             CoordinateX = startingX + 2;
                             CoordinateY = startingY + 5;
-                            //Direction++;
                         } else if (Direction == 1)
                         {
                             int startingX = (CoordinateX - 2);
@@ -240,8 +241,6 @@ namespace Race_simulator
                             Console.SetCursorPosition(CoordinateX-2, CoordinateY);
                             foreach (string line in _corner1)
                             {
-                                Thread.Sleep(50);
-
                                 Console.Write(line);
                                 LineNumber++;
                                 if (LineNumber == 4)
@@ -260,8 +259,6 @@ namespace Race_simulator
                             Console.SetCursorPosition(CoordinateX, CoordinateY);
                             foreach (string line in _corner2)
                             {
-                                Thread.Sleep(50);
-
                                 Console.Write(line);
                                 LineNumber++;
                                 if (LineNumber == 4)
@@ -273,16 +270,55 @@ namespace Race_simulator
                             }
                             CoordinateX = startingX;
                             CoordinateY = startingY - 4;
+                        } else if(Direction == 3)
+                        {
+                            int startingX = CoordinateX;
+                            int startingY = CoordinateY;
+                            Console.SetCursorPosition(CoordinateX, CoordinateY-1);
+                            foreach (string line in _corner3)
+                            {
+                                Console.Write(line);
+                                LineNumber++;
+                                if (LineNumber == 4)
+                                {
+                                    CoordinateY++;
+                                    Console.SetCursorPosition(CoordinateX, CoordinateY-1);
+                                    LineNumber = 0;
+                                }
+                            }
+                            CoordinateX = startingX + 10;
+                            CoordinateY = startingY - 1;
                         }
                         Direction++;
+                        if(Direction == 4)
+                        {
+                            Direction = 0;
+                        }
                         break;
                 }
-                //Console.SetCursorPosition(8, 8);
-                //foreach (string line in _finishHorizontal)
-                //{
-                //    Console.WriteLine(line);
-                //}
             }
+        }
+
+        private static string[,] AddParticipantsToGraphics(string[,] graphics, IParticipant participant)
+        {
+            string[,] newSection = graphics;
+            bool isReplaced = false;
+            for (int i = 0; i < 5; i++)
+            {
+                for (int j = 0; j < 4; j++)
+                {
+                    if(newSection[i,j] == ">" && isReplaced == false)
+                    {
+                        newSection[i, j] = participant.Name.Substring(0,1);
+                        isReplaced = true;
+                    }
+                }
+            }
+            return newSection;
+        }
+        public static void OnDriversChanged(object sender, DriversChangedEventArgs e)
+        {
+            DrawTrack(e.track);
         }
     }
 }
