@@ -30,6 +30,7 @@ namespace Controller
             _positions = new Dictionary<Section, SectionData>();
 
             SetStartPositionParticipants();
+            Start();
         }
 
         public SectionData GetSectionData(Section section)
@@ -78,7 +79,11 @@ namespace Controller
 
         private void OnTimedEvents(object sender, ElapsedEventArgs e)
         {
+            Timer.Stop();
+            //Console.WriteLine("Dit is een test");
 
+            DriversChanged?.Invoke(this, new DriversChangedEventArgs(track, Participants));
+            Timer.Start();
         }
 
         private void Start()

@@ -46,21 +46,37 @@ namespace Race_simulator
             { "----------", "", "", "" },
         };
 
+        //private static string[,] _corner0 = new string[,] //corner from south to east
+        //{
+        //    { "", "-----", "", "-\\   " },
+        //    { "", "      ", "", " \\  " },
+        //    { "", "       ", "", " \\ " },
+        //    { "", "        ", "", " \\" },
+        //    { "--\\", "      ", "", "|" }};
+
         private static string[,] _corner0 = new string[,] //corner from south to east
         {
-            { "", "-----", "", "-\\   " },
-            { "", "      ", "", " \\  " },
-            { "", "       ", "", " \\ " },
-            { "", "        ", "", " \\" },
+            { "", "--------", "", "-\\" },
+            { "", "        ", "", " |" },
+            { "", "        ", "", " |" },
+            { "", "         ", "", "|" },
             { "--\\", "      ", "", "|" }};
+
+        //private static string[,] _corner1 = new string[,] //corner from west to south
+        //{
+        //    { "--/", "      ", "", "|" },
+        //    { "", "        ", "", " /" },
+        //    { "", "        ", "", "/ " },
+        //    { "", "       ", "", "/  " },
+        //    { "--", "----", "", "/   " }};
 
         private static string[,] _corner1 = new string[,] //corner from west to south
         {
             { "--/", "      ", "", "|" },
-            { "", "        ", "", " /" },
-            { "", "        ", "", "/ " },
-            { "", "       ", "", "/  " },
-            { "--", "----", "", "/   " }};
+            { "", "        ", "", " |" },
+            { "", "        ", "", " |" },
+            { "", "       ", "", "  |" },
+            { "--", "-------", "", "/" }};
 
         private static string[,] _corner2 = new string[,] //corner from 
         {
@@ -90,6 +106,8 @@ namespace Race_simulator
         private static int CoordinateY;
         private static int startingX;
         private static int startingY;
+        private static int[] Player1Position;
+        private static int Player1Direction;
 
         public static void Initialize()
         {
@@ -103,6 +121,12 @@ namespace Race_simulator
 
         public static void DrawTrack(Track track)
         {
+            if (track.Name == "Zandvoort") { 
+                Player1Position = new int[2];
+                Player1Position[0] = 48;
+                Player1Position[1] = 2;
+                Player1Direction = 0;
+        }
             Console.Clear();
 
             Console.BackgroundColor = ConsoleColor.Blue;
@@ -115,7 +139,7 @@ namespace Race_simulator
                 switch (section.SectionType)
                 {
                     case SectionTypes.StartGrid:
-                        SectionData sectionData = Data.CurrentRace.GetSectionData(section);
+                        //SectionData sectionData = Data.CurrentRace.GetSectionData(section);
                         foreach (Model.IParticipant participant in Data.CurrentRace.Participants)
                         {
                             _horizontalStartingGrid = AddParticipantsToGraphics(_horizontalStartingGrid, participant);
@@ -318,7 +342,40 @@ namespace Race_simulator
         }
         public static void OnDriversChanged(object sender, DriversChangedEventArgs e)
         {
-            DrawTrack(e.track);
+
+            if(e.Track.Name == "Zandvoort")
+            {
+                Console.SetCursorPosition(50, 2);
+                Console.Write("#");
+                Console.SetCursorPosition(50, 3);
+                Console.Write("#");
+                Console.SetCursorPosition(50, 4);
+                Console.Write("#");
+                
+                Console.SetCursorPosition(CoordinateX, CoordinateY);
+            }
+            
+
+            if (Player1Direction == 0 ) { 
+                Console.SetCursorPosition(Player1Position[0], Player1Position[1]);
+                Console.Write(" ");
+                Player1Position[0]++;
+                //Player1Position[1]++;
+                Console.SetCursorPosition(Player1Position[0], Player1Position[1]);
+                Console.WriteLine("A");
+                if(Player1Position[0] == 78)
+                {
+                    Player1Direction++;
+                }
+            } else if (Player1Direction == 1)
+            {
+                Console.SetCursorPosition(Player1Position[0], Player1Position[1]);
+                Console.Write(" ");
+                //Player1Position[0]++;
+                Player1Position[1]++;
+                Console.SetCursorPosition(Player1Position[0], Player1Position[1]);
+                Console.WriteLine("A");
+            }
         }
     }
 }
