@@ -78,20 +78,38 @@ namespace Race_simulator
             { "", "       ", "", "  |" },
             { "--", "-------", "", "/" }};
 
+        //private static string[,] _corner2 = new string[,] //corner from 
+        //{
+        //    { "|", "      ", "", "\\--" },
+        //    { "\\", "         ", "", "" },
+        //    { " \\", "          ", "", "" },
+        //    { "  \\", "           ", "", "" },
+        //    { "   \\", "------", "", "" }};
+
         private static string[,] _corner2 = new string[,] //corner from 
         {
             { "|", "      ", "", "\\--" },
-            { "\\", "         ", "", "" },
-            { " \\", "          ", "", "" },
-            { "  \\", "           ", "", "" },
-            { "   \\", "------", "", "" }};
+            { "|", "         ", "", "" },
+            { "|", "          ", "", "" },
+            { "|", "           ", "", "" },
+            { "\\", "---------", "", "" }};
+
+        //private static string[,] _corner3 = new string[,]
+        //    {
+        //    { "   /", "-------", "", "" },
+        //    { "  /", "        ", "", "" },
+        //    { " /", "         ", "", "" },
+        //    { "/", "          ", "", "" },
+        //    { "|", "      ", "/", "---" },
+        //    };
+
 
         private static string[,] _corner3 = new string[,]
             {
-            { "   /", "-------", "", "" },
-            { "  /", "        ", "", "" },
-            { " /", "         ", "", "" },
-            { "/", "          ", "", "" },
+            { "/", "---------", "", "" },
+            { "|", "         ", "", "" },
+            { "|", "         ", "", "" },
+            { "|", "          ", "", "" },
             { "|", "      ", "/", "---" },
             };
 
@@ -106,36 +124,60 @@ namespace Race_simulator
         private static int CoordinateY;
         private static int startingX;
         private static int startingY;
+        private static IParticipant Winner;
+        private static IParticipant Loser;
+        public static bool RaceFinished;
+        private static bool ShownScoreScreen;
+
+        private static int NumberOfRounds;
+
         private static int[] Player1Position;
         private static int Player1Direction;
+        private static int Player1WentOverFinish;
 
+        private static int[] Player2Position;
+        private static int Player2Direction;
+        private static int Player2WentOverFinish;
+
+        private static bool test = false;
         public static void Initialize()
         {
+            Player1Position = new int[2];
+            Player1Position[0] = 48;
+            Player1Position[1] = 2;
+            Player1Direction = 0;
+
+            Player2Position = new int[2];
+            Player2Position[0] = 46;
+            Player2Position[1] = 4;
+            Player2Direction = 0;
+
             CoordinateX = 40;
             CoordinateY = 1;
             Direction = 0; //0 = east 1 = south 2 = west 3 = north
             LineNumber = 0;
+            NumberOfRounds = 2;
+            RaceFinished = false;
+            ShownScoreScreen = false;
+            Player2WentOverFinish = 0;
 
             Data.CurrentRace.DriversChanged += OnDriversChanged;
+            Data.CurrentRace.NextRace += OnStartNextRace;
+
+
+            Winner = new Driver();
+            Loser = new Driver();
         }
 
         public static void DrawTrack(Track track)
         {
-            if (track.Name == "Zandvoort") { 
-                Player1Position = new int[2];
-                Player1Position[0] = 48;
-                Player1Position[1] = 2;
-                Player1Direction = 0;
-        }
             Console.Clear();
 
             Console.BackgroundColor = ConsoleColor.Blue;
-            Console.WriteLine(track.Name);
-            
 
             foreach (Section section in track.Sections)
             {
-                Console.WriteLine(Direction);
+                //Console.WriteLine(Direction);
                 switch (section.SectionType)
                 {
                     case SectionTypes.StartGrid:
@@ -331,9 +373,9 @@ namespace Race_simulator
             {
                 for (int j = 0; j < 4; j++)
                 {
-                    if(newSection[i,j] == ">" && isReplaced == false)
+                    if (newSection[i, j] == ">" && isReplaced == false)
                     {
-                        newSection[i, j] = participant.Name.Substring(0,1);
+                        newSection[i, j] = participant.Name.Substring(0, 1);
                         isReplaced = true;
                     }
                 }
@@ -342,8 +384,429 @@ namespace Race_simulator
         }
         public static void OnDriversChanged(object sender, DriversChangedEventArgs e)
         {
+            IParticipant Player1 = e.Participants[0];
+            double Player1MovementSpeedTemporary = (Player1.Equipment.Performance * Player1.Equipment.Speed / 4)+1;
+            Player1MovementSpeedTemporary = Math.Ceiling(Player1MovementSpeedTemporary);
+            int Player1MovementSpeed = (int)Convert.ToUInt32(Player1MovementSpeedTemporary);
 
-            if(e.Track.Name == "Zandvoort")
+            IParticipant Player2 = e.Participants[1];
+            double Player2MovementSpeedTemporary = Player2.Equipment.Performance * Player2.Equipment.Speed / 4;
+            Player2MovementSpeedTemporary = Math.Ceiling(Player2MovementSpeedTemporary);
+            int Player2MovementSpeed = (int)Convert.ToUInt32(Player2MovementSpeedTemporary);
+
+            Player1MovementSpeed = 10;
+            Player2MovementSpeed = 10;
+
+
+            if (Player1WentOverFinish == NumberOfRounds+1)
+            {
+                if (Winner != Player2)
+                {
+                    Winner = Player1;
+                }
+                else
+                {
+                    Loser = Player1;
+                }
+                //Console.Clear();
+                //Console.WriteLine("Speler 1 heeft gewonnen");
+            }
+            else if (Player2WentOverFinish == NumberOfRounds+1)
+            {
+                if (Winner != Player1)
+                {
+                    Winner = Player2;
+                }
+                else
+                {
+                    Loser = Player2;
+                }
+                //Console.Clear();
+                //Console.WriteLine("Speler 2 heeft gewonnen");
+            }
+
+            //Console.WriteLine("test");
+            if(e.Track.Name == "Monaco")
+            {
+                if (Player1Direction == 0)
+                {
+                    Console.SetCursorPosition(Player1Position[0], Player1Position[1]);
+                    Console.Write(" ");
+                    Player1Position[0] += Player1MovementSpeed;
+                    //Player1Position[1]++;
+                    if (Player1Position[0] > 78)
+                    {
+                        Player1Position[0] = 78;
+                        Player1Position[1] += 1;
+                    }
+                    Console.SetCursorPosition(Player1Position[0], Player1Position[1]);
+                    Console.WriteLine(Player1.Name.Substring(0, 1));
+                    if (Player1Position[0] == 78)
+                    {
+                        Player1Direction++;
+                    }
+                }
+            }
+
+            if (e.Track.Name == "Zandvoort" && Player1WentOverFinish <= NumberOfRounds || e.Track.Name == "Zandvoort" && Player2WentOverFinish <= NumberOfRounds)
+            {
+                DrawFinishLine("Zandvoort");
+
+                //Console.SetCursorPosition(CoordinateX, CoordinateY);
+                //Console.SetCursorPosition(49, 4);
+                //Console.WriteLine(1);
+
+                switch (Player1MovementSpeed)
+                {
+                    case 1:
+                        if (Player1Position[0] == 48 && Player1Position[1] == 2)
+                        {
+                            Player1WentOverFinish++;
+                        }
+                        break;
+                    case 2:
+                        if (Player1Position[0] == 48 && Player1Position[1] == 2 || Player1Position[0] == 49 && Player1Position[1] == 2)
+                        {
+                            Player1WentOverFinish++;
+                        }
+                        break;
+                    case 3:
+                        if (Player1Position[0] >= 48 && Player1Position[0] <= 50 && Player1Position[1] == 2)
+                        {
+                            Player1WentOverFinish++;
+                        }
+                        break;
+                    case 4:
+                        if (Player1Position[0] >= 48 && Player1Position[0] <= 51 && Player1Position[1] == 2)
+                        {
+                            Player1WentOverFinish++;
+                        }
+                        break;
+                    case 5:
+                        if (Player1Position[0] >= 48 && Player1Position[0] <= 52 && Player1Position[1] == 2)
+                        {
+                            Player1WentOverFinish++;
+                        }
+                        break;
+                    case 6:
+                        if (Player1Position[0] >= 48 && Player1Position[0] <= 53 && Player1Position[1] == 2)
+                        {
+                            Player1WentOverFinish++;
+                        }
+                        break;
+                    case 7:
+                        if (Player1Position[0] >= 48 && Player1Position[0] <= 54 && Player1Position[1] == 2)
+                        {
+                            Player1WentOverFinish++;
+                        }
+                        break;
+                    case 8:
+                        if (Player1Position[0] >= 48 && Player1Position[0] <= 55 && Player1Position[1] == 2)
+                        {
+                            Player1WentOverFinish++;
+                        }
+                        break;
+                    case 9:
+                        if (Player1Position[0] >= 48 && Player1Position[0] <= 56 && Player1Position[1] == 2)
+                        {
+                            Player1WentOverFinish++;
+                        }
+                        break;
+                    case 10:
+                        if (Player1Position[0] >= 48 && Player1Position[0] <= 57 && Player1Position[1] == 2)
+                        {
+                            Player1WentOverFinish++;
+                        }
+                        break;
+                    case 11:
+                        if (Player1Position[0] >= 48 && Player1Position[0] <= 58 && Player1Position[1] == 2)
+                        {
+                            Player1WentOverFinish++;
+                        }
+                        break;
+                    case 12:
+                        if (Player1Position[0] >= 48 && Player1Position[0] <= 59 && Player1Position[1] == 2)
+                        {
+                            Player1WentOverFinish++;
+                        }
+                        break;
+                    case 13:
+                        if (Player1Position[0] >= 48 && Player1Position[0] <= 60 && Player1Position[1] == 2)
+                        {
+                            Player1WentOverFinish++;
+                        }
+                        break;
+                    case 14:
+                        if (Player1Position[0] >= 48 && Player1Position[0] <= 61 && Player1Position[1] == 2)
+                        {
+                            Player1WentOverFinish++;
+                        }
+                        break;
+                }
+                switch (Player2MovementSpeed)
+                {
+                    case 1:
+                        if (Player2Position[0] == 48 && Player2Position[1] == 4)
+                        {
+                            Player2WentOverFinish++;
+                        }
+                        break;
+                    case 2:
+                        if (Player2Position[0] == 48 && Player2Position[1] == 4 || Player2Position[0] == 49 && Player2Position[1] == 4)
+                        {
+                            Player2WentOverFinish++;
+                        }
+                        break;
+                    case 3:
+                        if (Player2Position[0] >= 48 && Player2Position[0] <= 50 && Player2Position[1] == 4)
+                        {
+                            Player2WentOverFinish++;
+                        }
+                        break;
+                    case 4:
+                        if (Player2Position[0] >= 48 && Player2Position[0] <= 51 && Player2Position[1] == 4)
+                        {
+                            Player2WentOverFinish++;
+                        }
+                        break;
+                    case 5:
+                        if (Player2Position[0] >= 48 && Player2Position[0] <= 52 && Player2Position[1] == 4)
+                        {
+                            Player2WentOverFinish++;
+                        }
+                        break;
+                    case 6:
+                        if (Player2Position[0] >= 48 && Player2Position[0] <= 53 && Player2Position[1] == 4)
+                        {
+                            Player2WentOverFinish++;
+                        }
+                        break;
+                    case 7:
+                        if (Player2Position[0] >= 48 && Player2Position[0] <= 54 && Player2Position[1] == 4)
+                        {
+                            Player2WentOverFinish++;
+                        }
+                        break;
+                    case 8:
+                        if (Player2Position[0] >= 48 && Player2Position[0] <= 55 && Player2Position[1] == 4)
+                        {
+                            Player2WentOverFinish++;
+                        }
+                        break;
+                    case 9:
+                        if (Player2Position[0] >= 48 && Player2Position[0] <= 56 && Player2Position[1] == 4)
+                        {
+                            Player2WentOverFinish++;
+                        }
+                        break;
+                    case 10:
+                        if (Player2Position[0] >= 48 && Player2Position[0] <= 57 && Player2Position[1] == 4)
+                        {
+                            Player2WentOverFinish++;
+                        }
+                        break;
+                    case 11:
+                        if (Player2Position[0] >= 48 && Player2Position[0] <= 58 && Player2Position[1] == 4)
+                        {
+                            Player2WentOverFinish++;
+                        }
+                        break;
+                    case 12:
+                        if (Player2Position[0] >= 48 && Player2Position[0] <= 59 && Player2Position[1] == 4)
+                        {
+                            Player2WentOverFinish++;
+                        }
+                        break;
+                    case 13:
+                        if (Player2Position[0] >= 48 && Player2Position[0] <= 60 && Player2Position[1] == 4)
+                        {
+                            Player2WentOverFinish++;
+                        }
+                        break;
+                }
+  
+                if (Player1WentOverFinish <= NumberOfRounds)
+                {
+
+                    if (Player1Direction == 0)
+                    {
+                        Console.SetCursorPosition(Player1Position[0], Player1Position[1]);
+                        Console.Write(" ");
+                        Player1Position[0] += Player1MovementSpeed;
+                        //Player1Position[1]++;
+                        if (Player1Position[0] > 78)
+                        {
+                            Player1Position[0] = 78;
+                            Player1Position[1] += 1;
+                        }
+                        Console.SetCursorPosition(Player1Position[0], Player1Position[1]);
+                        Console.WriteLine(Player1.Name.Substring(0, 1));
+                        if (Player1Position[0] == 78)
+                        {
+                            Player1Direction++;
+                        }
+                    }
+                    else if (Player1Direction == 1)
+                    {
+                        Console.SetCursorPosition(Player1Position[0], Player1Position[1]);
+                        Console.Write(" ");
+                        //Player1Position[0]++;
+                        Player1Position[1] += Player1MovementSpeed;
+                        if (Player1Position[1] > 21)
+                        {
+                            Player1Position[1] = 21;
+                            Player1Position[0] -= 1;
+                        }
+                        Console.SetCursorPosition(Player1Position[0], Player1Position[1]);
+                        Console.WriteLine(Player1.Name.Substring(0, 1));
+                        if (Player1Position[1] == 21)
+                        {
+                            Player1Direction++;
+                        }
+                    }
+                    else if (Player1Direction == 2)
+                    {
+                        Console.SetCursorPosition(Player1Position[0], Player1Position[1]);
+                        Console.Write(" ");
+                        Player1Position[0] -= Player1MovementSpeed;
+                        //Player1Position[1];
+                        if (Player1Position[0] < 11)
+                        {
+                            Player1Position[0] = 11;
+                            //Player1Position[1] -= 1;
+                        }
+                        Console.SetCursorPosition(Player1Position[0], Player1Position[1]);
+                        Console.WriteLine(Player1.Name.Substring(0, 1));
+                        if (Player1Position[0] == 11)
+                        {
+                            Player1Direction++;
+                        }
+                    }
+                    else if (Player1Direction == 3)
+                    {
+                        Console.SetCursorPosition(Player1Position[0], Player1Position[1]);
+                        Console.Write(" ");
+                        Player1Position[1] -= Player1MovementSpeed;
+                        Player1Position[1]--;
+                        if (Player1Position[1] < 2)
+                        {
+                            Player1Position[1] = 2;
+                            Player1Position[0]++;
+                        }
+                        Console.SetCursorPosition(Player1Position[0], Player1Position[1]);
+                        Console.WriteLine(Player1.Name.Substring(0, 1));
+                        if (Player1Position[1] == 2)
+                        {
+                            Player1Direction = 0;
+                        }
+                    }
+                } else
+                {
+                    Console.SetCursorPosition(Player1Position[0], Player1Position[1]);
+                    Console.Write(" ");
+                }
+
+                if (Player2WentOverFinish <= NumberOfRounds)
+                {
+                    if (Player2Direction == 0)
+                    {
+                        //Console.Write(" ");
+                        //Console.SetCursorPosition(45, 4);
+                        //Console.Write(" ");
+                        Console.SetCursorPosition(Player2Position[0], Player2Position[1]);
+                        Console.Write(" ");
+                        Player2Position[0] += Player2MovementSpeed;
+                        //Player1Position[1]++;
+                        if (Player2Position[0] > 73)
+                        {
+                            Player2Position[0] = 73;
+                            //Player2Position[1] += 1;
+                        }
+                        Console.SetCursorPosition(Player2Position[0], Player2Position[1]);
+                        Console.WriteLine(Player2.Name.Substring(0, 1));
+                        if (Player2Position[0] == 73)
+                        {
+                            Player2Direction++;
+                        }
+                    }
+                    else if (Player2Direction == 1)
+                    {
+                        Console.SetCursorPosition(Player2Position[0], Player2Position[1]);
+                        Console.Write(" ");
+                        //Player1Position[0]++;
+                        Player2Position[1] += Player2MovementSpeed;
+                        if (Player2Position[1] > 18)
+                        {
+                            Player2Position[1] = 19;
+                            //Player2Position[0] -= 1;
+                        }
+                        Console.SetCursorPosition(Player2Position[0], Player2Position[1]);
+                        Console.WriteLine(Player2.Name.Substring(0, 1));
+                        if (Player2Position[1] == 19)
+                        {
+                            Player2Direction++;
+                        }
+                    }
+                    else if (Player2Direction == 2)
+                    {
+                        Console.SetCursorPosition(Player2Position[0], Player2Position[1]);
+                        Console.Write(" ");
+                        Player2Position[0] -= Player2MovementSpeed;
+                        //Player1Position[1];
+                        if (Player2Position[0] < 16)
+                        {
+                            Player2Position[0] = 16;
+                            //Player1Position[1] -= 1;
+                        }
+                        Console.SetCursorPosition(Player2Position[0], Player2Position[1]);
+                        Console.WriteLine(Player2.Name.Substring(0, 1));
+                        if (Player2Position[0] == 16)
+                        {
+                            Player2Direction++;
+                        }
+                    }
+                    else if (Player2Direction == 3)
+                    {
+                        Console.SetCursorPosition(Player2Position[0], Player2Position[1]);
+                        Console.Write(" ");
+                        Player2Position[1] -= Player1MovementSpeed;
+                        Player2Position[1]--;
+                        if (Player2Position[1] < 4)
+                        {
+                            Player2Position[1] = 4;
+                            Player2Position[0]++;
+                        }
+                        Console.SetCursorPosition(Player2Position[0], Player2Position[1]);
+                        Console.WriteLine(Player2.Name.Substring(0, 1));
+                        if (Player2Position[1] == 4)
+                        {
+                            Player2Direction = 0;
+                        }
+                    }
+                }
+                else
+                {
+                    Console.SetCursorPosition(Player2Position[0], Player2Position[1]);
+                    Console.Write(" ");
+                }
+            }
+            else if (ShownScoreScreen == false && e.EveryoneHasFinished == false)
+            {
+                Console.Clear();
+                Console.WriteLine("Race gestopt");
+                Console.WriteLine($"{Winner.Name} heeft de race gewonnen");
+                Console.WriteLine($"{Loser.Name} heeft verloren");
+                //Thread.Sleep(100000);
+                Console.Clear();
+                ShownScoreScreen = true;
+                e.EveryoneHasFinished = true;
+            }
+
+        }
+
+        public static void DrawFinishLine(string trackName)
+        {
+            if (trackName == "Zandvoort")
             {
                 Console.SetCursorPosition(50, 2);
                 Console.Write("#");
@@ -351,30 +814,35 @@ namespace Race_simulator
                 Console.Write("#");
                 Console.SetCursorPosition(50, 4);
                 Console.Write("#");
-                
+
+                Console.SetCursorPosition(CoordinateX, CoordinateY);
+            } else if(trackName == "Monaco")
+            {
+                Console.SetCursorPosition(50, 2);
+                Console.Write("#");
+                Console.SetCursorPosition(50, 3);
+                Console.Write("#");
+                Console.SetCursorPosition(50, 4);
+                Console.Write("#");
+
                 Console.SetCursorPosition(CoordinateX, CoordinateY);
             }
-            
+        }
+        public static void OnStartNextRace(object sender, EventArgs e)
+        {
+            Data.CurrentRace.DriversChanged -= OnDriversChanged;
+            //Data.CurrentRace.NextRace -= OnStartNextRace;
 
-            if (Player1Direction == 0 ) { 
-                Console.SetCursorPosition(Player1Position[0], Player1Position[1]);
-                Console.Write(" ");
-                Player1Position[0]++;
-                //Player1Position[1]++;
-                Console.SetCursorPosition(Player1Position[0], Player1Position[1]);
-                Console.WriteLine("A");
-                if(Player1Position[0] == 78)
-                {
-                    Player1Direction++;
-                }
-            } else if (Player1Direction == 1)
+            Data.NextRace();
+            if (Data.CurrentRace != null)
             {
-                Console.SetCursorPosition(Player1Position[0], Player1Position[1]);
-                Console.Write(" ");
-                //Player1Position[0]++;
-                Player1Position[1]++;
-                Console.SetCursorPosition(Player1Position[0], Player1Position[1]);
-                Console.WriteLine("A");
+                Console.BackgroundColor = ConsoleColor.Black;
+                Initialize();
+                DrawTrack(Data.CurrentRace.track);
+            }
+            else
+            {
+                Console.WriteLine("Er is geen race meer beschikbaar");
             }
         }
     }

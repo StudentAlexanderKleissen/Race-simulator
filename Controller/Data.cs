@@ -22,8 +22,8 @@ namespace Controller
 
         public static void AddParticipants()
         {
-            Car car1 = new Car(10, 10, 10, false);
-            Car car2 = new Car(10, 10, 10, false);
+            Car car1 = new Car(10, 10, 5, false);
+            Car car2 = new Car(10, 10, 5, false);
 
             Driver Alex = new Driver("Alex", 0, car1, IParticipant.TeamColors.Red);
             Driver Ander = new Driver("Xander", 0, car2, IParticipant.TeamColors.Blue);
@@ -60,9 +60,25 @@ namespace Controller
 
             SectionTypes[] monacoSections =
             {
+                SectionTypes.StartGrid,
+                SectionTypes.Finish,
+                SectionTypes.Straight,
                 SectionTypes.RightCorner,
                 SectionTypes.Straight,
-                SectionTypes.LeftCorner,
+                SectionTypes.Straight,
+                SectionTypes.Straight,
+                SectionTypes.RightCorner,
+                SectionTypes.Straight,
+                SectionTypes.Straight,
+                SectionTypes.Straight,
+                SectionTypes.Straight,
+                SectionTypes.Straight,
+                SectionTypes.RightCorner,
+                SectionTypes.Straight,
+                SectionTypes.Straight,
+                SectionTypes.Straight,
+                SectionTypes.RightCorner,
+                SectionTypes.Straight,
                 SectionTypes.Straight,
             };
 

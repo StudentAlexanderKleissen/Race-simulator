@@ -8,10 +8,13 @@ namespace Model
     {
         public Track Track { get; set; }
         public List<IParticipant> Participants { get; set; }
+        public bool EveryoneHasFinished;
         public DriversChangedEventArgs(Track track, List<IParticipant> participants)
         {
             Track = track;
             Participants = participants;
+            EveryoneHasFinished = false;
         }
+
     }
 }
