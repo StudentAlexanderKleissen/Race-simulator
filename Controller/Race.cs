@@ -105,6 +105,8 @@ namespace Controller
             Timer.Elapsed -= OnTimedEvents;
 
             NextRace?.Invoke(this, driversChangedEventArgs);
+
+            Timer.Elapsed += OnTimedEvents;
         }
     }
 }

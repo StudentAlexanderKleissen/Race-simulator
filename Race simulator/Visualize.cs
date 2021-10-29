@@ -139,7 +139,6 @@ namespace Race_simulator
         private static int Player2Direction;
         private static int Player2WentOverFinish;
 
-        private static bool test = false;
         public static void Initialize()
         {
             Player1Position = new int[2];
@@ -384,6 +383,8 @@ namespace Race_simulator
         }
         public static void OnDriversChanged(object sender, DriversChangedEventArgs e)
         {
+            Console.WriteLine("test");
+
             IParticipant Player1 = e.Participants[0];
             double Player1MovementSpeedTemporary = (Player1.Equipment.Performance * Player1.Equipment.Speed / 4)+1;
             Player1MovementSpeedTemporary = Math.Ceiling(Player1MovementSpeedTemporary);
@@ -394,8 +395,8 @@ namespace Race_simulator
             Player2MovementSpeedTemporary = Math.Ceiling(Player2MovementSpeedTemporary);
             int Player2MovementSpeed = (int)Convert.ToUInt32(Player2MovementSpeedTemporary);
 
-            Player1MovementSpeed = 10;
-            Player2MovementSpeed = 10;
+            Player1MovementSpeed = 13;
+            Player2MovementSpeed = 13;
 
 
             if (Player1WentOverFinish == NumberOfRounds+1)
@@ -425,33 +426,33 @@ namespace Race_simulator
                 //Console.WriteLine("Speler 2 heeft gewonnen");
             }
 
-            //Console.WriteLine("test");
-            if(e.Track.Name == "Monaco")
-            {
-                if (Player1Direction == 0)
-                {
-                    Console.SetCursorPosition(Player1Position[0], Player1Position[1]);
-                    Console.Write(" ");
-                    Player1Position[0] += Player1MovementSpeed;
-                    //Player1Position[1]++;
-                    if (Player1Position[0] > 78)
-                    {
-                        Player1Position[0] = 78;
-                        Player1Position[1] += 1;
-                    }
-                    Console.SetCursorPosition(Player1Position[0], Player1Position[1]);
-                    Console.WriteLine(Player1.Name.Substring(0, 1));
-                    if (Player1Position[0] == 78)
-                    {
-                        Player1Direction++;
-                    }
-                }
-            }
+            Console.WriteLine("test");
+            //if(e.Track.Name == "Monaco")
+            //{
+            //    if (Player1Direction == 0)
+            //    {
+            //        Console.SetCursorPosition(Player1Position[0], Player1Position[1]);
+            //        Console.Write(" ");
+            //        Player1Position[0] += Player1MovementSpeed;
+            //        //Player1Position[1]++;
+            //        if (Player1Position[0] > 78)
+            //        {
+            //            Player1Position[0] = 78;
+            //            Player1Position[1] += 1;
+            //        }
+            //        Console.SetCursorPosition(Player1Position[0], Player1Position[1]);
+            //        Console.WriteLine(Player1.Name.Substring(0, 1));
+            //        if (Player1Position[0] == 78)
+            //        {
+            //            Player1Direction++;
+            //        }
+            //    }
+            //}
 
             if (e.Track.Name == "Zandvoort" && Player1WentOverFinish <= NumberOfRounds || e.Track.Name == "Zandvoort" && Player2WentOverFinish <= NumberOfRounds)
             {
                 DrawFinishLine("Zandvoort");
-
+                Console.WriteLine("Race op Zandvoort");
                 //Console.SetCursorPosition(CoordinateX, CoordinateY);
                 //Console.SetCursorPosition(49, 4);
                 //Console.WriteLine(1);
@@ -837,8 +838,35 @@ namespace Race_simulator
             if (Data.CurrentRace != null)
             {
                 Console.BackgroundColor = ConsoleColor.Black;
-                Initialize();
+                //Initialize();
                 DrawTrack(Data.CurrentRace.track);
+                Console.WriteLine(Data.CurrentRace.track.Name);
+
+                Player1Position = new int[2];
+                Player1Position[0] = 48;
+                Player1Position[1] = 2;
+                Player1Direction = 0;
+
+                Player2Position = new int[2];
+                Player2Position[0] = 46;
+                Player2Position[1] = 4;
+                Player2Direction = 0;
+
+                CoordinateX = 40;
+                CoordinateY = 1;
+                Direction = 0; //0 = east 1 = south 2 = west 3 = north
+                LineNumber = 0;
+                NumberOfRounds = 2;
+                RaceFinished = false;
+                ShownScoreScreen = false;
+                Player2WentOverFinish = 0;
+
+                Winner = new Driver();
+                Loser = new Driver();
+
+                //Console.WriteLine("test");
+                //Data.CurrentRace.DriversChanged += OnDriversChanged;
+                //Data.CurrentRace.NextRace += OnStartNextRace;
             }
             else
             {

@@ -78,6 +78,7 @@ namespace Controller
                 SectionTypes.Straight,
                 SectionTypes.Straight,
                 SectionTypes.RightCorner,
+                SectionTypes.RightCorner,
                 SectionTypes.Straight,
                 SectionTypes.Straight,
             };
