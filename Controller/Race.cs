@@ -24,7 +24,7 @@ namespace Controller
         {
             this.track = track;
             Participants = participants;
-            Timer = new Timer(100);
+            Timer = new Timer(500);
 
             Timer.Elapsed += OnTimedEvents;
 
@@ -83,12 +83,39 @@ namespace Controller
         {
             Timer.Stop();
             //Console.WriteLine("Dit is een test");
-            DriversChangedEventArgs driversChangedEventArgs = new DriversChangedEventArgs(track, Participants);
+            DriversChangedEventArgs driversChangedEventArgs = new DriversChangedEventArgs(Data.CurrentRace.track, Participants);
+            //Console.WriteLine(Data.CurrentRace.track.Name);
             DriversChanged?.Invoke(this, driversChangedEventArgs);
+
+            foreach(IParticipant participant in Participants)
+            {
+                Random rnd = new Random();
+                if (rnd.Next(100) == 1)
+                {
+                    participant.Equipment.IsBroken = true;
+
+                    if(participant.Equipment.Performance > 1)
+                    {
+                        participant.Equipment.Performance--;
+                    }
+                }
+                else
+                {
+                    participant.Equipment.IsBroken = false;
+                }
+            }
             if (driversChangedEventArgs.EveryoneHasFinished == true)
             {
-                driversChangedEventArgs.EveryoneHasFinished = false;
-                StartNextRace(driversChangedEventArgs);
+                if (Data.NextRace() != null)
+                {
+                    DriversChangedEventArgs driversChangedEventArgs1 = new DriversChangedEventArgs(Data.NextRace(), Participants);
+                    driversChangedEventArgs.EveryoneHasFinished = false;
+                    StartNextRace(driversChangedEventArgs1);
+                }
+                //    DriversChangedEventArgs driversChangedEventArgs1 = new DriversChangedEventArgs(Data.NextRace(), Participants);
+                //driversChangedEventArgs.EveryoneHasFinished = false;
+                //StartNextRace(driversChangedEventArgs1);
+                //Console.WriteLine("Test eventargs");
             }
             Timer.Start();
         }
