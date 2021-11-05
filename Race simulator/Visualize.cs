@@ -682,7 +682,7 @@ namespace Race_simulator
                         Console.SetCursorPosition(Player1Position[0], Player1Position[1]);
                         Console.Write(" ");
                         Player1Position[1] -= Player1MovementSpeed;
-                        Player1Position[1]--;
+                        //Player1Position[1]--;
                         if (Player1Position[1] < 2)
                         {
                             Player1Position[1] = 2;
@@ -773,7 +773,7 @@ namespace Race_simulator
                         Console.SetCursorPosition(Player2Position[0], Player2Position[1]);
                         Console.Write(" ");
                         Player2Position[1] -= Player1MovementSpeed;
-                        Player2Position[1]--;
+                        //Player2Position[1]--;
                         if (Player2Position[1] < 4)
                         {
                             Player2Position[1] = 4;
