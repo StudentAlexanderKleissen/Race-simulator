@@ -143,7 +143,6 @@ namespace Race_simulator
         private static bool MonacoHasBeenRacedOn;
 
         private static bool test = false;
-        private static int testint = 0;
 
         public static void Initialize()
         {
@@ -1022,7 +1021,7 @@ namespace Race_simulator
                 Console.WriteLine("Race gestopt");
                 Console.WriteLine($"{Winner.Name} heeft de race gewonnen");
                 Console.WriteLine($"{Loser.Name} heeft verloren");
-                Thread.Sleep(1000);
+                //Thread.Sleep(1000);
                 Console.Clear();
                 ShownScoreScreen = true;
                 e.EveryoneHasFinished = true;
@@ -1031,7 +1030,7 @@ namespace Race_simulator
                 //Thread.Sleep(10000);
                 //track = Data.NextRace();
                 //if (Data.CurrentRace != null)
-                Thread.Sleep(1000);
+                //Thread.Sleep(1000);
                 //Console.WriteLine(e.Track.Name);
                 if (Data.NextRace() != null)
                 {

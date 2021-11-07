@@ -11,6 +11,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Controller", "Controller\Co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ControllerTest", "ControllerTest\ControllerTest.csproj", "{2C3638EA-2EAF-4779-AA9E-9029816A4B3F}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Graphics", "Graphics\Graphics.csproj", "{D199A444-5C2C-43E2-BB48-939576791304}"
+	ProjectSection(ProjectDependencies) = postProject
+		{30365C72-F94C-4250-9BC9-79F68754A9C9} = {30365C72-F94C-4250-9BC9-79F68754A9C9}
+		{89B38CA5-CF65-4A32-B01F-8A57CA5FA1D3} = {89B38CA5-CF65-4A32-B01F-8A57CA5FA1D3}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +39,10 @@ Global
 		{2C3638EA-2EAF-4779-AA9E-9029816A4B3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2C3638EA-2EAF-4779-AA9E-9029816A4B3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2C3638EA-2EAF-4779-AA9E-9029816A4B3F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D199A444-5C2C-43E2-BB48-939576791304}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D199A444-5C2C-43E2-BB48-939576791304}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D199A444-5C2C-43E2-BB48-939576791304}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D199A444-5C2C-43E2-BB48-939576791304}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -15,7 +15,7 @@ namespace Model
         {
             Participants = new List<IParticipant>();
             Tracks = new Queue<Track>();
-            Console.SetCursorPosition(10, 0);
+            //Console.SetCursorPosition(10, 0);
         }
 
         public Track NextTrack()

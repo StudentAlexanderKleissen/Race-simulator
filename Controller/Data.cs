@@ -88,11 +88,11 @@ namespace Controller
                 SectionTypes.Straight,
             };
 
-            Track track1 = new Track("Zandvoort", zandvoortSections);
-            Track track2 = new Track("Monaco", monacoSections);
+            Track zandvoort = new Track("Zandvoort", zandvoortSections);
+            Track monaco = new Track("Monaco", monacoSections);
 
-            Competition.Tracks.Enqueue(track1);
-            Competition.Tracks.Enqueue(track2);
+            Competition.Tracks.Enqueue(zandvoort);
+            Competition.Tracks.Enqueue(monaco);
         }
 
         public static Track NextRace()
