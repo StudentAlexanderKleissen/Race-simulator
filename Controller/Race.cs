@@ -86,11 +86,13 @@ namespace Controller
             DriversChangedEventArgs driversChangedEventArgs = new DriversChangedEventArgs(Data.CurrentRace.track, Participants);
             //Console.WriteLine(Data.CurrentRace.track.Name);
             DriversChanged?.Invoke(this, driversChangedEventArgs);
+                //Console.WriteLine(DriversChanged.GetInvocationList());
+            //DriversChanged.GetInvocationList();
 
             foreach(IParticipant participant in Participants)
             {
                 Random rnd = new Random();
-                if (rnd.Next(100) == 1)
+                if (rnd.Next(100) == 101) //moet 1 zijjn
                 {
                     participant.Equipment.IsBroken = true;
 

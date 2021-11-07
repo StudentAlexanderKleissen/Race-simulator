@@ -134,13 +134,16 @@ namespace Race_simulator
         private static int[] Player1Position;
         private static int Player1Direction;
         private static int Player1WentOverFinish;
-
+       
         private static int[] Player2Position;
         private static int Player2Direction;
         private static int Player2WentOverFinish;
 
         private static bool ZandvoortHasBeenRacedOn;
         private static bool MonacoHasBeenRacedOn;
+
+        private static bool test = false;
+        private static int testint = 0;
 
         public static void Initialize()
         {
@@ -156,6 +159,8 @@ namespace Race_simulator
             Player2Direction = 0;
             Player2WentOverFinish = 0;
 
+            startingX = 0;
+            startingY = 0;
             CoordinateX = 40;
             CoordinateY = 1;
             Direction = 0; //0 = east 1 = south 2 = west 3 = north
@@ -166,7 +171,6 @@ namespace Race_simulator
 
             Data.CurrentRace.DriversChanged += OnDriversChanged;
             Data.CurrentRace.NextRace += OnStartNextRace;
-
 
             Winner = new Driver();
             Loser = new Driver();
@@ -387,6 +391,7 @@ namespace Race_simulator
         }
         public static void OnDriversChanged(object sender, DriversChangedEventArgs e)
         {
+            DrawFinishLine();
             //Console.WriteLine("test");
 
             IParticipant Player1 = e.Participants[0];
@@ -404,8 +409,8 @@ namespace Race_simulator
             //Console.WriteLine($"P2: {Player2.Equipment.IsBroken}");
 
 
-            //Player1MovementSpeed = 10;
-            //Player2MovementSpeed = 10;
+            //Player1MovementSpeed = 6;
+            //Player2MovementSpeed = 6;
 
             if (Player1MovementSpeed == 1)
             {
@@ -617,7 +622,10 @@ namespace Race_simulator
 
             if (e.Track.Name == "Monaco" && Player1WentOverFinish <= NumberOfRounds || e.Track.Name == "Monaco" && Player2WentOverFinish <= NumberOfRounds)
             {
-                DrawFinishLine();
+                //Console.WriteLine(value: Data.CurrentRace.DriversChanged.GetInvocationList());
+
+                //Console.Write(e.Track.Name);
+                //DrawFinishLine();
                 if (Player1WentOverFinish <= NumberOfRounds && Player2.Equipment.IsBroken == false)
                 {
                     //Console.WriteLine($"{Player1WentOverFinish} Speler 1");
@@ -643,6 +651,12 @@ namespace Race_simulator
                     }
                     else if (Player1Direction == 1)
                     {
+                        if (test == false)
+                        {
+                            Data.CurrentRace.DriversChanged -= OnDriversChanged;
+                            test = true;
+                        } 
+
                         Console.SetCursorPosition(Player1Position[0], Player1Position[1]);
                         Console.Write(" ");
                         //Player1Position[0]++;
@@ -734,6 +748,11 @@ namespace Race_simulator
                     }
                     else if (Player2Direction == 1)
                     {
+                        if (test == false)
+                        {
+                            Data.CurrentRace.DriversChanged -= OnDriversChanged;
+                            test = true;
+                        }
                         Console.SetCursorPosition(Player2Position[0], Player2Position[1]);
                         Console.Write(" ");
                         //Player1Position[0]++;
@@ -799,10 +818,9 @@ namespace Race_simulator
                 }
             }
 
-
             if (e.Track.Name == "Zandvoort" && Player1WentOverFinish <= NumberOfRounds || e.Track.Name == "Zandvoort" && Player2WentOverFinish <= NumberOfRounds)
             {
-                DrawFinishLine();
+                //Console.Write(e.Track.Name);
                 //Console.WriteLine("Race op Zandvoort");
                 //Console.SetCursorPosition(CoordinateX, CoordinateY);
                 //Console.SetCursorPosition(49, 4);
@@ -1009,12 +1027,11 @@ namespace Race_simulator
                 ShownScoreScreen = true;
                 e.EveryoneHasFinished = true;
                 //e.Track = Data.CurrentRace.track;
-                Console.WriteLine(e.Track.Name);
                 //Console.WriteLine("Volgende race gestart");
                 //Thread.Sleep(10000);
                 //track = Data.NextRace();
                 //if (Data.CurrentRace != null)
-                Thread.Sleep(5000);
+                Thread.Sleep(1000);
                 //Console.WriteLine(e.Track.Name);
                 if (Data.NextRace() != null)
                 {
@@ -1024,7 +1041,7 @@ namespace Race_simulator
                 //Data.NextRace();
                 ShownScoreScreen = true;
                 //e.EveryoneHasFinished = true;
-                Thread.Sleep(5000);
+                Thread.Sleep(1000);
                 //Console.WriteLine(e.Track.Name);
                 
             }
@@ -1052,6 +1069,7 @@ namespace Race_simulator
             {
                 Console.BackgroundColor = ConsoleColor.Black;
                 Initialize();
+                //Data.CurrentRace.DriversChanged -= OnDriversChanged;
                 DrawTrack(Data.CurrentRace.track);
                 Console.WriteLine($"{Data.CurrentRace} huidige circuit");
                 Thread.Sleep(5000);
