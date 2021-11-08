@@ -1073,7 +1073,6 @@ namespace Race_simulator
                 Console.WriteLine($"{Data.CurrentRace} huidige circuit");
                 Thread.Sleep(5000);
                 //Console.WriteLine(Data.CurrentRace.track.Name);
-
                 //Player1Position = new int[2];
                 //Player1Position[0] = 48;
                 //Player1Position[1] = 2;

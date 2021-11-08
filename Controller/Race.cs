@@ -49,11 +49,11 @@ namespace Controller
             foreach(IParticipant participant in Participants)
             {
                 Random rnd1 = new Random();
-                int rndm1 = rnd1.Next(1, 5);
+                int rndm1 = rnd1.Next(5, 10);
                 participant.Equipment.Quality = rndm1;
 
                 Random rnd2 = new Random();
-                int rndm2 = rnd2.Next(1, 5);
+                int rndm2 = rnd2.Next(5, 10);
                 participant.Equipment.Performance = rndm2;
             }
         }
@@ -92,7 +92,7 @@ namespace Controller
             foreach(IParticipant participant in Participants)
             {
                 Random rnd = new Random();
-                if (rnd.Next(100) == 101) //moet 1 zijjn
+                if (rnd.Next(100) == 1) 
                 {
                     participant.Equipment.IsBroken = true;
 
@@ -101,7 +101,7 @@ namespace Controller
                         participant.Equipment.Performance--;
                     }
                 }
-                else
+                else if(rnd.Next(2) == 1)
                 {
                     participant.Equipment.IsBroken = false;
                 }

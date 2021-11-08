@@ -90,7 +90,8 @@ namespace Controller
 
             Track zandvoort = new Track("Zandvoort", zandvoortSections);
             Track monaco = new Track("Monaco", monacoSections);
-
+            
+            //Competition.Tracks.Enqueue(monaco);
             Competition.Tracks.Enqueue(zandvoort);
             Competition.Tracks.Enqueue(monaco);
         }

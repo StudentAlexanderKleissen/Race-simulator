@@ -23,6 +23,8 @@ namespace Graphics
     /// </summary>
     public partial class MainWindow : Window
     {
+        public static bool IsZandvoortFinished;
+        public static bool IsMonacoFinished;
         public MainWindow()
         {
             InitializeComponent();
@@ -31,11 +33,27 @@ namespace Graphics
             Visualize.Initialize();
 
             Data.CurrentRace.DriversChanged += OnDriversChanged;
-            //Data.CurrentRace.NextRace += OnStartNextRace;
         }
 
         private void OnDriversChanged(object sender, DriversChangedEventArgs e)
         {
+            if(IsZandvoortFinished == true && IsMonacoFinished == true)
+            {
+                Data.CurrentRace.DriversChanged -= OnDriversChanged;
+                UseImages.Clear();
+            }
+
+            this.Label1.Dispatcher.BeginInvoke(
+    DispatcherPriority.Render,
+    new Action(() =>
+    {
+        this.Label1.Content = null;
+        this.Label1.Content = $"Zandvoort: {IsZandvoortFinished}, Monaco: {IsMonacoFinished}";
+    }));
+
+            Visualize.Player1 = e.Participants[0];
+            Visualize.Player2 = e.Participants[1];
+
             this.Image1.Dispatcher.BeginInvoke(
                 DispatcherPriority.Render,
                 new Action(() =>
@@ -43,6 +61,31 @@ namespace Graphics
                     this.Image1.Source = null;
                     this.Image1.Source = Visualize.DrawTrack(e.Track);
                 }));
+
+
+            if (Visualize.Loser == Visualize.Player1 || Visualize.Loser == Visualize.Player2)
+            {
+                e.EveryoneHasFinished = true;
+
+                if(e.Track.Name == "Zandvoort")
+                {
+                    IsZandvoortFinished = true;
+                } else if(e.Track.Name == "Monaco")
+                {
+                    IsMonacoFinished = true;
+                }
+
+                this.Label1.Dispatcher.BeginInvoke(
+                    DispatcherPriority.Render,
+                    new Action(() =>
+                    {
+                        this.Label1.Content = null;
+                        this.Label1.Content = "Race beindigd";
+                    }));
+                UseImages.Clear();
+                Visualize.Initialize();
+                Visualize.bitmap = UseImages.GetEmptyBitmap(800, 500);
+            }
         }
     }
 }
