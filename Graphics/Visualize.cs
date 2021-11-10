@@ -10,24 +10,24 @@ namespace Graphics
     public static class Visualize
     {
         #region graphics
-        private const string _StartGrid = "C:\\Users\\Alexander\\source\\repos\\Race-simulator\\Graphics\\Images\\StartGrid.png";
-        private const string _Finish = "C:\\Users\\Alexander\\source\\repos\\Race-simulator\\Graphics\\Images\\Finish.png";
+        private const string _StartGrid = ".\\Images\\StartGrid.png";
+        private const string _Finish = ".\\Images\\Finish.png";
 
-        private const string _StraightVertical = "C:\\Users\\Alexander\\source\\repos\\Race-simulator\\Graphics\\Images\\StraightVertical.png";
+        private const string _StraightVertical = ".\\Images\\StraightVertical.png";
         //private const string _StraightHorizontal = ".\\Images\\StraightHorizontal.png";
 
-        private const string _StraightHorizontal = "C:\\Users\\Alexander\\source\\repos\\Race-simulator\\Graphics\\Images\\StraightHorizontal.png";
+        private const string _StraightHorizontal = ".\\Images\\StraightHorizontal.png";
         //private const string _StraightHorizontal = "C:\\Users\\Alexander\\source\repos\\Race-simulator\\Graphics\\Images\\StraightHorizontal.png";
 
-        private const string _Turn0 = "C:\\Users\\Alexander\\source\\repos\\Race-simulator\\Graphics\\Images\\Turn0.png";
-        private const string _Turn1 = "C:\\Users\\Alexander\\source\\repos\\Race-simulator\\Graphics\\Images\\Turn1.png";
-        private const string _Turn2 = "C:\\Users\\Alexander\\source\\repos\\Race-simulator\\Graphics\\Images\\Turn2.png";
-        private const string _Turn3 = "C:\\Users\\Alexander\\source\\repos\\Race-simulator\\Graphics\\Images\\Turn3.png";
+        private const string _Turn0 = ".\\Images\\Turn0.png";
+        private const string _Turn1 = ".\\Images\\Turn1.png";
+        private const string _Turn2 = ".\\Images\\Turn2.png";
+        private const string _Turn3 = ".\\Images\\Turn3.png";
 
-        private const string _CarRed = "C:\\Users\\Alexander\\source\\repos\\Race-simulator\\Graphics\\Images\\Red_Race_Car.png";
+        private const string _CarRed = ".\\Images\\Red_Race_Car.png";
         //private const string _CarRed = "C:\\Users\\Alexander\\Desktop\\race-simulator-master\\WpfApp\\Images\\CarBlue.png";
-        private const string _CarBlue = "C:\\Users\\Alexander\\source\\repos\\Race-simulator\\Graphics\\Images\\Blue_Race_Car.png";
-        private const string _Broken = "C:\\Users\\Alexander\\source\\repos\\Race-simulator\\Graphics\\Images\\Broken_Race_Car.png";
+        private const string _CarBlue = ".\\Images\\Blue_Race_Car.png";
+        private const string _Broken = ".\\Images\\Broken_Race_Car.png";
 
         #endregion graphics
 

@@ -21,17 +21,39 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Images\Blue_Race_Car.png" />
-    <Content Include="Images\Broken_Race_Car.png" />
-    <Content Include="Images\Finish.png" />
-    <Content Include="Images\Red_Race_Car.png" />
-    <Content Include="Images\StartGrid.png" />
-    <Content Include="Images\StraightHorizontal.png" />
-    <Content Include="Images\StraightVertical.png" />
-    <Content Include="Images\Turn0.png" />
-    <Content Include="Images\Turn1.png" />
-    <Content Include="Images\Turn2.png" />
-    <Content Include="Images\Turn3.png" />
+    <Content Include="Images\Blue_Race_Car.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Broken_Race_Car.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Finish.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Red_Race_Car.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\StartGrid.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\StraightHorizontal.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\StraightVertical.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Turn0.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Turn1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Turn2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Turn3.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
