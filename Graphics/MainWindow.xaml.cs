@@ -92,5 +92,17 @@ namespace Graphics
         {
             Application.Current.Shutdown();
         }
+
+        private void Menu_Show_Window1_Click(object sender, RoutedEventArgs e)
+        {
+            Window1 window = new Window1();
+            window.Show();
+        }
+
+        private void Menu_Show_Window2_Click(object sender, RoutedEventArgs e)
+        {
+            Window2 window = new Window2();
+            window.Show();
+        }
     }
 }
