@@ -44,12 +44,12 @@ namespace Graphics
             }
 
             this.Label1.Dispatcher.BeginInvoke(
-    DispatcherPriority.Render,
-    new Action(() =>
-    {
-        this.Label1.Content = null;
-        this.Label1.Content = $"Zandvoort: {IsZandvoortFinished}, Monaco: {IsMonacoFinished}";
-    }));
+        DispatcherPriority.Render,
+            new Action(() =>
+            {
+                this.Label1.Content = null;
+                this.Label1.Content = $"Zandvoort: {IsZandvoortFinished}, Monaco: {IsMonacoFinished}";
+            }));
 
             Visualize.Player1 = e.Participants[0];
             Visualize.Player2 = e.Participants[1];
@@ -86,6 +86,11 @@ namespace Graphics
                 Visualize.Initialize();
                 Visualize.bitmap = UseImages.GetEmptyBitmap(800, 500);
             }
+        }
+
+        private void MenuItem_Close_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
         }
     }
 }

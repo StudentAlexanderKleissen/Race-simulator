@@ -7,7 +7,16 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid Background="LightBlue" HorizontalAlignment="Center" Margin="0,10,0,0" Width="800" Height="430" VerticalAlignment="Top">
-        <Image Margin="0,-4,0,0" Name="Image1" HorizontalAlignment="Left" Width="797" Height="428" VerticalAlignment="Top"/>
+        <DockPanel LastChildFill="False" Height="20" VerticalAlignment="Top">
+            <Menu DockPanel.Dock="Top" Height="20" VerticalAlignment="Top">
+                <MenuItem Header="Menu">
+                    <MenuItem Header="Window1"/>
+                    <MenuItem Header="Window2"/>
+                    <MenuItem Header="Close" Click="MenuItem_Close_Click"/>
+                </MenuItem>
+            </Menu>
+        </DockPanel>
+        <Image Margin="0,25,0,6" Name="Image1" HorizontalAlignment="Left" Width="797"/>
         <Label Content="Label" Name="Label1" HorizontalAlignment="Left" Margin="617,189,0,0" VerticalAlignment="Top"/>
     </Grid>
 </Window>
