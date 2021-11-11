@@ -12,19 +12,18 @@
         <controller:DataContext/>
     </Window.DataContext>
 
-
     <Grid Background="LightBlue" HorizontalAlignment="Center" Margin="0,10,0,0" Width="800" Height="430" VerticalAlignment="Top">
         <Label Margin="0,20,669,380" HorizontalAlignment="Right" Width="128" Content="{Binding TrackName, Mode=OneWay}"/>
         <DockPanel LastChildFill="False" Height="20" VerticalAlignment="Top" Margin="3,0,-3,0">
             <Menu DockPanel.Dock="Top" Height="20" VerticalAlignment="Top">
                 <MenuItem Header="Menu">
-                    <MenuItem Header="Window1" Click="Menu_Show_Window1_Click"/>
-                    <MenuItem Header="Window2" Click="Menu_Show_Window2_Click"/>
+                    <MenuItem Header="Race Information" Click="Menu_Show_Participant_Info_Click"/>
+                    <MenuItem Header="Competition information" Click="Menu_Show_Competition_Info_Click"/>
+                    <!--<MenuItem Header="Window2" Click="Menu_Show_Window2_Click"/>-->
                     <MenuItem Header="Close" Click="MenuItem_Close_Click"/>
                 </MenuItem>
             </Menu>
         </DockPanel>
         <Image Margin="3,0,0,6" x:Name="Image1" HorizontalAlignment="Left" Width="797" Height="375" VerticalAlignment="Bottom"/>
-        <Label Content="Label" x:Name="Label1" HorizontalAlignment="Left" Margin="620,189,0,0" VerticalAlignment="Top"/>
     </Grid>
 </Window>

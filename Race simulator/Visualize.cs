@@ -394,12 +394,12 @@ namespace Race_simulator
             //Console.WriteLine("test");
 
             IParticipant Player1 = e.Participants[0];
-            double Player1MovementSpeedTemporary = (Player1.Equipment.Performance * Player1.Equipment.Speed / 2) + 1;
+            double Player1MovementSpeedTemporary = (Player1.Equipment.Performance * Player1.Equipment.Speed / 4) + 1;
             Player1MovementSpeedTemporary = Math.Ceiling(Player1MovementSpeedTemporary);
             int Player1MovementSpeed = (int)Convert.ToUInt32(Player1MovementSpeedTemporary);
 
             IParticipant Player2 = e.Participants[1];
-            double Player2MovementSpeedTemporary = Player2.Equipment.Performance * Player2.Equipment.Speed / 2;
+            double Player2MovementSpeedTemporary = Player2.Equipment.Performance * Player2.Equipment.Speed / 4;
             Player2MovementSpeedTemporary = Math.Ceiling(Player2MovementSpeedTemporary);
             int Player2MovementSpeed = (int)Convert.ToUInt32(Player2MovementSpeedTemporary);
 
@@ -1021,17 +1021,9 @@ namespace Race_simulator
                 Console.WriteLine("Race gestopt");
                 Console.WriteLine($"{Winner.Name} heeft de race gewonnen");
                 Console.WriteLine($"{Loser.Name} heeft verloren");
-                //Thread.Sleep(1000);
                 Console.Clear();
                 ShownScoreScreen = true;
                 e.EveryoneHasFinished = true;
-                //e.Track = Data.CurrentRace.track;
-                //Console.WriteLine("Volgende race gestart");
-                //Thread.Sleep(10000);
-                //track = Data.NextRace();
-                //if (Data.CurrentRace != null)
-                //Thread.Sleep(1000);
-                //Console.WriteLine(e.Track.Name);
                 if (Data.NextRace() != null)
                 {
                     e.EveryoneHasFinished = true;
@@ -1040,7 +1032,7 @@ namespace Race_simulator
                 //Data.NextRace();
                 ShownScoreScreen = true;
                 //e.EveryoneHasFinished = true;
-                Thread.Sleep(1000);
+                //Thread.Sleep(1000);
                 //Console.WriteLine(e.Track.Name);
                 
             }
@@ -1101,7 +1093,7 @@ namespace Race_simulator
             }
             else
             {
-                //Console.WriteLine("Er is geen race meer beschikbaar");
+                Environment.Exit(0);
             }
         }
     }

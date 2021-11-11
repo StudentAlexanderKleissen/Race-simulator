@@ -10,6 +10,7 @@
     <None Remove="Images\Blue_Race_Car.png" />
     <None Remove="Images\Broken_Race_Car.png" />
     <None Remove="Images\Finish.png" />
+    <None Remove="Images\Monaco.jpg" />
     <None Remove="Images\Red_Race_Car.png" />
     <None Remove="Images\StartGrid.png" />
     <None Remove="Images\StraightHorizontal.png" />
@@ -18,6 +19,7 @@
     <None Remove="Images\Turn1.png" />
     <None Remove="Images\Turn2.png" />
     <None Remove="Images\Turn3.png" />
+    <None Remove="Images\Zandvoort.jpg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -28,6 +30,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Images\Finish.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Monaco.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Images\Red_Race_Car.png">
@@ -63,6 +68,12 @@
   <ItemGroup>
     <ProjectReference Include="..\Controller\Controller.csproj" />
     <ProjectReference Include="..\Model\Model.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Images\Zandvoort.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

@@ -37,19 +37,14 @@ namespace Graphics
 
         private void OnDriversChanged(object sender, DriversChangedEventArgs e)
         {
-            if(IsZandvoortFinished == true && IsMonacoFinished == true)
+            Data.Competition.Participants[0].Points = Data.Competition.Participants[0].TimesWon * 18;
+            Data.Competition.Participants[1].Points = Data.Competition.Participants[1].TimesWon * 18;
+
+            if (IsZandvoortFinished && IsMonacoFinished)
             {
                 Data.CurrentRace.DriversChanged -= OnDriversChanged;
                 UseImages.Clear();
             }
-
-            this.Label1.Dispatcher.BeginInvoke(
-        DispatcherPriority.Render,
-            new Action(() =>
-            {
-                this.Label1.Content = null;
-                this.Label1.Content = $"Zandvoort: {IsZandvoortFinished}, Monaco: {IsMonacoFinished}";
-            }));
 
             Visualize.Player1 = e.Participants[0];
             Visualize.Player2 = e.Participants[1];
@@ -75,13 +70,7 @@ namespace Graphics
                     IsMonacoFinished = true;
                 }
 
-                this.Label1.Dispatcher.BeginInvoke(
-                    DispatcherPriority.Render,
-                    new Action(() =>
-                    {
-                        this.Label1.Content = null;
-                        this.Label1.Content = "Race beindigd";
-                    }));
+                
                 UseImages.Clear();
                 Visualize.Initialize();
                 Visualize.bitmap = UseImages.GetEmptyBitmap(800, 500);
@@ -93,16 +82,16 @@ namespace Graphics
             Application.Current.Shutdown();
         }
 
-        private void Menu_Show_Window1_Click(object sender, RoutedEventArgs e)
+        private void Menu_Show_Participant_Info_Click(object sender, RoutedEventArgs e)
         {
-            Window1 window = new Window1();
-            window.Show();
+            ParticipantInfo participantStats = new ParticipantInfo();
+            participantStats.Show();
         }
 
-        private void Menu_Show_Window2_Click(object sender, RoutedEventArgs e)
+        private void Menu_Show_Competition_Info_Click(object sender, RoutedEventArgs e)
         {
-            Window2 window = new Window2();
-            window.Show();
+            CompetitionInfo competition = new CompetitionInfo();
+            competition.Show();
         }
     }
 }

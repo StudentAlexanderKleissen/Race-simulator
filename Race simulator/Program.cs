@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using Controller;
+using Model;
 
 namespace Race_simulator
 {

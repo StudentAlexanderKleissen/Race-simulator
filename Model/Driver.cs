@@ -10,6 +10,7 @@ namespace Model
         public int Points{ get;set; }
         public IEquipment Equipment { get;set; }
         public IParticipant.TeamColors TeamColor { get; set; }
+        public int TimesWon { get; set; }
 
         public Driver(string name, int points, IEquipment equipment,IParticipant.TeamColors teamcolor)
         {
@@ -25,7 +26,7 @@ namespace Model
 
         public override string ToString()
         {
-            return $"name = {this.Name}, point = {this.Points}";
+            return $"Name = {Name}{System.Environment.NewLine}Team Color: {TeamColor}{System.Environment.NewLine}Current Equipment Speed: {Equipment.Speed}{System.Environment.NewLine}Equipment Performance: {Equipment.Performance}{System.Environment.NewLine}Equipment is broken: {Equipment.IsBroken}{System.Environment.NewLine}";
         }
 
         //public static implicit operator Driver(DriversChangedEventArgs v)

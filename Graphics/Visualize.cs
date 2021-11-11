@@ -1,4 +1,5 @@
-﻿using Model;
+﻿using Controller;
+using Model;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -56,13 +57,9 @@ namespace Graphics
         private static bool Player2WentOverFinishDelay;
         public static IParticipant Player2;
 
-        private static bool ZandvoortHasBeenRacedOn;
-        private static bool MonacoHasBeenRacedOn;
 
         private static int TopRightCornerRight;
-        private static int BottomRightCornerRight;
         private static int TopRightCornerLeft;
-        private static int BottomRightCornerLeft;
 
         public static Bitmap bitmap = UseImages.GetEmptyBitmap(500, 500);
         //public static Bitmap bitmap = UseImages.GetEmptyBitmap(800, 500);
@@ -331,13 +328,13 @@ namespace Graphics
             double Player1MovementSpeedTemporary = Player1.Equipment.Performance * Player1.Equipment.Speed;
             Player1MovementSpeedTemporary = Math.Ceiling(Player1MovementSpeedTemporary);
             int Player1MovementSpeed = (int)Convert.ToUInt32(Player1MovementSpeedTemporary);
-            Player1MovementSpeed = 100;
+            //Player1MovementSpeed = 100;
 
             //Player2 gets 20 extra movementspeed because it starts on the outside of the track so has to take the longer route
             double Player2MovementSpeedTemporary = (Player2.Equipment.Performance * Player2.Equipment.Speed) + 20;
             Player2MovementSpeedTemporary = Math.Ceiling(Player2MovementSpeedTemporary);
             int Player2MovementSpeed = (int)Convert.ToUInt32(Player2MovementSpeedTemporary);
-            Player1MovementSpeed = 100;
+            //Player1MovementSpeed = 100;
 
             //Move the RED racing car
             if (Player1.Equipment.IsBroken == false)
@@ -470,10 +467,13 @@ namespace Graphics
                 if (Player2WentOverFinish > NumberOfRounds && Winner == null)
                 {
                     Winner = Player2;
+                    Data.Competition.Participants[1].TimesWon++;
                 }
                 else if (Player2WentOverFinish > NumberOfRounds && Winner == Player1)
                 {
                     Loser = Player2;
+                    Winner = Player1;
+                    Data.Competition.Participants[0].TimesWon++;
                 }
                 //The delay is there because otherwise every time the player goes past the finish it is registered as an lap
                 Player2WentOverFinishDelay = true;

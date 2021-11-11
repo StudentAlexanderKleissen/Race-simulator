@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Controller;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,11 +15,11 @@ using System.Windows.Shapes;
 namespace Graphics
 {
     /// <summary>
-    /// Interaction logic for Window1.xaml
+    /// Interaction logic for ParticipantInfo.xaml
     /// </summary>
-    public partial class Window1 : Window
+    public partial class ParticipantInfo : Window
     {
-        public Window1()
+        public ParticipantInfo()
         {
             InitializeComponent();
         }

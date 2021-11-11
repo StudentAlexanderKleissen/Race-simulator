@@ -8,6 +8,8 @@ namespace Controller
 {
     public static class Data
     {
+        internal static object competition;
+
         public static Competition Competition { get; set; }
 
         public static Race CurrentRace { get; set; }
